@@ -2,11 +2,23 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
 
 	"github.com/priyendra/dlisp/parser"
 )
+
+// TODO(deshwal): Support expressions that evalute to non-integral values.
+func eval(expr parser.AstNode) (int, error) {
+	switch expr.Type() {
+	case parser.AST_LIST:
+	case parser.AST_SYMBOL:
+	case parser.AST_LITERAL:
+		return expr.Literal(), nil
+	}
+	return -1, errors.New("Cannot eval:\n" + expr.DebugString())
+}
 
 // Read-Eval-Print-Loop
 func repl() {
@@ -24,7 +36,12 @@ func repl() {
 		if err != nil {
 			fmt.Println(err)
 		} else {
-			parsed.PrintDebugString()
+			val, err := eval(parsed)
+			if err != nil {
+				fmt.Println(err)
+			} else {
+				fmt.Println(val)
+			}
 		}
 	}
 }

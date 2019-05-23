@@ -39,28 +39,41 @@ type AstNode struct {
 	children []*AstNode
 }
 
-func (node *AstNode) printDebugStringHelper(indentAmt int) {
+func (node *AstNode) Type() AstNodeType {
+	return node.astType
+}
+
+func (node *AstNode) Symbol() string {
+	return node.symbol
+}
+
+func (node *AstNode) Literal() int {
+	return node.literal
+}
+
+func (node *AstNode) debugStringHelper(indentAmt int) string {
+	var sb strings.Builder
 	indent := strings.Repeat(" ", indentAmt)
 	switch node.astType {
 	case AST_SYMBOL:
-		fmt.Print(indent)
-		fmt.Println("Sym", node.symbol)
+		sb.WriteString(fmt.Sprintf("%sSym %s", indent, node.symbol))
 	case AST_LITERAL:
-		fmt.Print(indent)
-		fmt.Println("Lit", node.literal)
+		sb.WriteString(fmt.Sprintf("%sLit %d", indent, node.literal))
 	case AST_LIST:
-		fmt.Print(indent)
-		fmt.Println("List {")
+		sb.WriteString(indent)
+		sb.WriteString("List {\n")
 		for _, child := range node.children {
-			child.printDebugStringHelper(indentAmt + 2)
+			sb.WriteString(child.debugStringHelper(indentAmt + 2))
+			sb.WriteString("\n")
 		}
-		fmt.Print(indent)
-		fmt.Println("}")
+		sb.WriteString(indent)
+		sb.WriteString("}")
 	}
+	return sb.String()
 }
 
-func (node *AstNode) PrintDebugString() {
-	node.printDebugStringHelper(0)
+func (node *AstNode) DebugString() string {
+	return node.debugStringHelper(0)
 }
 
 // TODO: Improve this is a very basic tokenizer. Does not handle quotes, does
