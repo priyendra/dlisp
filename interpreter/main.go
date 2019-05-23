@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+
+	"github.com/priyendra/dlisp/parser"
 )
 
 // Read-Eval-Print-Loop
@@ -18,7 +20,12 @@ func repl() {
 		if input == "exit" {
 			break
 		}
-		fmt.Println("Execute:", input)
+		parsed, err := parser.Parse(input)
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			parsed.PrintDebugString()
+		}
 	}
 }
 
