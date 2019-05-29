@@ -9,9 +9,9 @@ import (
 	"github.com/priyendra/dlisp/value"
 )
 
-// Read-Eval-Print-Loop
-func repl() {
+func main() {
 	scanner := bufio.NewScanner(os.Stdin)
+	// Read eval print loop
 	for {
 		fmt.Print(">> ")
 		if !scanner.Scan() {
@@ -34,8 +34,4 @@ func repl() {
 			}
 		}
 	}
-}
-
-func main() {
-	repl()
 }
