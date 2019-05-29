@@ -28,7 +28,7 @@ type AstNodeType int
 
 const (
 	AST_SYMBOL = iota
-	AST_LITERAL
+	AST_INT_LITERAL
 	AST_LIST
 )
 
@@ -51,13 +51,21 @@ func (node *AstNode) Literal() int {
 	return node.literal
 }
 
+func (node *AstNode) NumChildren() int {
+	return len(node.children)
+}
+
+func (node *AstNode) Child(i int) *AstNode {
+	return node.children[i]
+}
+
 func (node *AstNode) debugStringHelper(indentAmt int) string {
 	var sb strings.Builder
 	indent := strings.Repeat(" ", indentAmt)
 	switch node.astType {
 	case AST_SYMBOL:
 		sb.WriteString(fmt.Sprintf("%sSym %s", indent, node.symbol))
-	case AST_LITERAL:
+	case AST_INT_LITERAL:
 		sb.WriteString(fmt.Sprintf("%sLit %d", indent, node.literal))
 	case AST_LIST:
 		sb.WriteString(indent)
@@ -87,7 +95,7 @@ func tokenize(input string) tokenStream {
 func parseAtom(token string) (AstNode, error) {
 	node := AstNode{}
 	if count, _ := fmt.Sscanf(token, "%d", &node.literal); count == 1 {
-		node.astType = AST_LITERAL
+		node.astType = AST_INT_LITERAL
 	} else {
 		node.symbol = token
 		node.astType = AST_SYMBOL

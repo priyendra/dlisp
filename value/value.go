@@ -35,32 +35,32 @@ type ToTypeVisitor struct {
 	vtype Type
 }
 
-func (vis ToTypeVisitor) VisitInt(i int64)          { vis.vtype = INT }
-func (vis ToTypeVisitor) VisitFloat(f float64)      { vis.vtype = FLOAT }
-func (vis ToTypeVisitor) VisitFunction(fn Function) { vis.vtype = FUNCTION }
+func (vis *ToTypeVisitor) VisitInt(i int64)          { vis.vtype = INT }
+func (vis *ToTypeVisitor) VisitFloat(f float64)      { vis.vtype = FLOAT }
+func (vis *ToTypeVisitor) VisitFunction(fn Function) { vis.vtype = FUNCTION }
 
 type ToStringVisitor struct {
 	str string
 }
 
-func (vis ToStringVisitor) VisitInt(i int64) {
+func (vis *ToStringVisitor) VisitInt(i int64) {
 	vis.str = fmt.Sprintf("%d", i)
 }
-func (vis ToStringVisitor) VisitFloat(f float64) {
+func (vis *ToStringVisitor) VisitFloat(f float64) {
 	vis.str = fmt.Sprintf("%f", f)
 }
-func (vis ToStringVisitor) VisitFunction(fn Function) {
+func (vis *ToStringVisitor) VisitFunction(fn Function) {
 	vis.str = "Function"
 }
 
 func ToType(v Value) Type {
 	vis := ToTypeVisitor{}
-	v.Visit(vis)
+	v.Visit(&vis)
 	return vis.vtype
 }
 
 func ToString(v Value) string {
 	vis := ToStringVisitor{}
-	v.Visit(vis)
+	v.Visit(&vis)
 	return vis.str
 }
