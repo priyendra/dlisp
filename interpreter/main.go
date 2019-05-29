@@ -28,6 +28,7 @@ func repl() {
 		if !scanner.Scan() {
 			break
 		}
+		// TODO(deshwal): Support multi-line inputs
 		input := scanner.Text()
 		if input == "exit" {
 			break
