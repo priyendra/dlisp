@@ -86,8 +86,9 @@ func (vis *EvalVisitor) VisitCompound(c Compound) {
 		childVis2 := EvalVisitor{vis.env, nil, nil}
 		child.Visit(&childVis2)
 		if childVis2.err != nil {
-			vis.err = errors.New(
-				fmt.Sprintf("Could not eval %d-th arg of list expression", i-1))
+			vis.err = errors.New(fmt.Sprintf(
+				"Could not eval %d-th arg of list expression (%s)",
+				i+1, childVis2.err.Error()))
 			return
 		}
 		args[i] = childVis2.val

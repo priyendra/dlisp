@@ -2,7 +2,7 @@ package expression
 
 import (
 	"errors"
-	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -33,11 +33,10 @@ func tokenize(input string) tokenStream {
 }
 
 func parseAtom(token string) (Expression, error) {
-	var i int64
-	var f float64
-	if count, _ := fmt.Sscanf(token, "%d", &i); count == 1 {
+	// TODO(deshwal): Validate the tokens via regular expressions
+	if i, err := strconv.ParseInt(token, 10, 64); err == nil {
 		return IntLiteral(i), nil
-	} else if count, _ := fmt.Sscanf(token, "%f", &f); count == 1 {
+	} else if f, err := strconv.ParseFloat(token, 64); err == nil {
 		return FloatLiteral(f), nil
 	}
 	return Symbol(token), nil
