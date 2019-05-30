@@ -16,6 +16,10 @@ func StdEnv() Environment {
 	}
 	env.names["identity"] = builtins.Identity
 	env.names["+"] = builtins.Plus
+	env.names["-"] = builtins.Minus
+	env.names["*"] = builtins.Multiply
+	env.names["/"] = builtins.Divide
+	env.names["%"] = builtins.Mod
 	env.names["pi"] = value.Float(math.Pi)
 	return env
 }

@@ -2,62 +2,92 @@ package builtins
 
 import (
 	"errors"
-	"fmt"
 	"github.com/priyendra/dlisp/value"
+	"math"
 )
 
-type plusVisitor struct {
-	operandIndex int
-	intSum       int64
-	floatSum     float64
-	allInts      bool
-	err          error
-}
-
-func (vis *plusVisitor) VisitInt(i int64) {
-	if vis.allInts {
-		vis.intSum += i
-	} else {
-		vis.floatSum += float64(i)
+func genericArithemeticOperator(
+	args []value.Value,
+	intFn func(a int64, b int64) int64,
+	floatFn func(a float64, b float64) float64) (value.Value, error) {
+	if len(args) != 2 {
+		return nil, errors.New("Arithmetic operator requires exactly two arguments")
 	}
-	vis.operandIndex++
-}
-
-func (vis *plusVisitor) VisitFloat(f float64) {
-	if vis.allInts {
-		vis.allInts = false
-		vis.floatSum = float64(vis.intSum)
+	allInts := true
+	var aInt, bInt int64
+	var aFloat, bFloat float64
+	switch value.ToType(args[0]) {
+	case value.INT:
+		aInt = int64(args[0].(value.Int))
+		aFloat = float64(aInt)
+	case value.FLOAT:
+		allInts = false
+		aFloat = float64(args[0].(value.Float))
+	case value.FUNCTION:
+		return nil, errors.New("Non-numeric argument to arithmetic operator")
 	}
-	vis.floatSum += f
-	vis.operandIndex++
-}
-
-func newPlusVisitor() plusVisitor {
-	return plusVisitor{0, int64(0), float64(0.0), true, nil}
-}
-
-func (vis *plusVisitor) VisitFunction(fn value.Function) {
-	vis.err = errors.New(fmt.Sprintf(
-		"Plus expected numeric type, found function at operand %d",
-		vis.operandIndex))
-	vis.operandIndex++
+	switch value.ToType(args[1]) {
+	case value.INT:
+		bInt = int64(args[1].(value.Int))
+		bFloat = float64(bInt)
+	case value.FLOAT:
+		allInts = false
+		bFloat = float64(args[1].(value.Float))
+	case value.FUNCTION:
+		return nil, errors.New("Non-numeric argument to arithmetic operator")
+	}
+	if allInts {
+		return value.Int(intFn(aInt, bInt)), nil
+	}
+	return value.Float(floatFn(aFloat, bFloat)), nil
 }
 
 var Plus BuiltinFn = BuiltinFn{
 	func(args []value.Value) (value.Value, error) {
-		if len(args) < 1 {
-			return nil, errors.New("Plus requires at least one argument")
-		}
-		plusVis := newPlusVisitor()
-		for _, a := range args {
-			a.Visit(&plusVis)
-			if plusVis.err != nil {
-				return nil, plusVis.err
-			}
-		}
-		if plusVis.allInts {
-			return value.Int(plusVis.intSum), nil
-		}
-		return value.Float(plusVis.floatSum), nil
+		return genericArithemeticOperator(
+			args,
+			func(a int64, b int64) int64 { return a + b },
+			func(a float64, b float64) float64 { return a + b },
+		)
+	},
+}
+
+var Minus BuiltinFn = BuiltinFn{
+	func(args []value.Value) (value.Value, error) {
+		return genericArithemeticOperator(
+			args,
+			func(a int64, b int64) int64 { return a - b },
+			func(a float64, b float64) float64 { return a - b },
+		)
+	},
+}
+
+var Multiply BuiltinFn = BuiltinFn{
+	func(args []value.Value) (value.Value, error) {
+		return genericArithemeticOperator(
+			args,
+			func(a int64, b int64) int64 { return a * b },
+			func(a float64, b float64) float64 { return a * b },
+		)
+	},
+}
+
+var Divide BuiltinFn = BuiltinFn{
+	func(args []value.Value) (value.Value, error) {
+		return genericArithemeticOperator(
+			args,
+			func(a int64, b int64) int64 { return a / b },
+			func(a float64, b float64) float64 { return a / b },
+		)
+	},
+}
+
+var Mod BuiltinFn = BuiltinFn{
+	func(args []value.Value) (value.Value, error) {
+		return genericArithemeticOperator(
+			args,
+			func(a int64, b int64) int64 { return a % b },
+			func(a float64, b float64) float64 { return math.Mod(a, b) },
+		)
 	},
 }
