@@ -15,6 +15,7 @@ func StdEnv() Environment {
 		map[string]value.Value{},
 	}
 	env.names["identity"] = builtins.Identity
+	env.names["+"] = builtins.Plus
 	env.names["pi"] = value.Float(math.Pi)
 	return env
 }
