@@ -3,11 +3,24 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 
+	"github.com/priyendra/dlisp/builtins"
 	"github.com/priyendra/dlisp/expression"
-	"github.com/priyendra/dlisp/value"
 )
+
+func stdEnv() expression.Environment {
+	env := expression.NewEnvironment()
+	env.Names["identity"] = builtins.Identity
+	env.Names["+"] = builtins.Plus
+	env.Names["-"] = builtins.Minus
+	env.Names["*"] = builtins.Multiply
+	env.Names["/"] = builtins.Divide
+	env.Names["%"] = builtins.Mod
+	env.Names["pi"] = expression.Float(math.Pi)
+	return env
+}
 
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
@@ -26,11 +39,12 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 		} else {
-			val, err := expression.Eval(expr)
+			env := stdEnv()
+			val, err := expression.Eval(expr, &env)
 			if err != nil {
 				fmt.Println(err)
 			} else {
-				fmt.Println(value.ToString(val))
+				fmt.Println(expression.ToString(val))
 			}
 		}
 	}

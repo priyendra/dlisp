@@ -1,18 +1,13 @@
 package expression
 
-import (
-	"errors"
-	"fmt"
-	"github.com/priyendra/dlisp/value"
-)
-
 type Type int
 
 const (
-	INT_LITERAL = iota
-	FLOAT_LITERAL
+	INT = iota
+	FLOAT
 	SYMBOL
-	COMPOUND
+	FUNCTION
+	LIST
 )
 
 type Expression interface {
@@ -20,84 +15,29 @@ type Expression interface {
 }
 
 type Visitor interface {
-	VisitIntLiteral(i int64)
-	VisitFloatLiteral(f float64)
+	VisitInt(i int64)
+	VisitFloat(f float64)
 	VisitSymbol(s string)
-	VisitCompound(c Compound)
+	VisitFunction(fn Function)
+	VisitList(l List)
 }
 
-type IntLiteral int64
-type FloatLiteral float64
+type Int int64
+type Float float64
 type Symbol string
-type Compound []Expression
-
-func (i IntLiteral) Visit(vis Visitor)   { vis.VisitIntLiteral(int64(i)) }
-func (f FloatLiteral) Visit(vis Visitor) { vis.VisitFloatLiteral(float64(f)) }
-func (s Symbol) Visit(vis Visitor)       { vis.VisitSymbol(string(s)) }
-func (c Compound) Visit(vis Visitor)     { vis.VisitCompound(c) }
-
-type EvalVisitor struct {
-	env Environment
-	val value.Value
-	err error
+type Function interface {
+	Expression
+	Eval(args []Expression) (Expression, error)
 }
+type List []Expression
 
-func (vis *EvalVisitor) VisitIntLiteral(i int64) {
-	vis.val = value.Int(i)
-	vis.err = nil
-}
+func (i Int) Visit(vis Visitor)    { vis.VisitInt(int64(i)) }
+func (f Float) Visit(vis Visitor)  { vis.VisitFloat(float64(f)) }
+func (s Symbol) Visit(vis Visitor) { vis.VisitSymbol(string(s)) }
+func (l List) Visit(vis Visitor)   { vis.VisitList(l) }
 
-func (vis *EvalVisitor) VisitFloatLiteral(f float64) {
-	vis.val = value.Float(f)
-	vis.err = nil
-}
-
-func (vis *EvalVisitor) VisitSymbol(s string) {
-	val, found := vis.env.names[s]
-	if !found {
-		vis.val = nil
-		vis.err = errors.New(fmt.Sprintf("Undefined symbol: '%s'", s))
-		return
-	}
-	vis.val = val
-	vis.err = nil
-}
-
-func (vis *EvalVisitor) VisitCompound(c Compound) {
-	if len(c) < 1 {
-		vis.err = errors.New("Empty compound expression not supported")
-		return
-	}
-	childVis := EvalVisitor{vis.env, nil, nil}
-	c[0].Visit(&childVis)
-	if childVis.err != nil {
-		vis.val = nil
-		vis.err = errors.New("Could not eval first child of list expression")
-		return
-	}
-	if value.ToType(childVis.val) != value.FUNCTION {
-		vis.val = nil
-		vis.err = errors.New(
-			"First child of list function must eval to type function")
-		return
-	}
-	args := make([]value.Value, len(c)-1)
-	for i, child := range c[1:] {
-		childVis2 := EvalVisitor{vis.env, nil, nil}
-		child.Visit(&childVis2)
-		if childVis2.err != nil {
-			vis.err = errors.New(fmt.Sprintf(
-				"Could not eval %d-th arg of list expression (%s)",
-				i+1, childVis2.err.Error()))
-			return
-		}
-		args[i] = childVis2.val
-	}
-	vis.val, vis.err = childVis.val.(value.Function).Eval(args)
-}
-
-func Eval(e Expression) (value.Value, error) {
-	vis := EvalVisitor{StdEnv(), nil, nil}
-	e.Visit(&vis)
-	return vis.val, vis.err
-}
+func AsInt(e Expression) int64         { return int64(e.(Int)) }
+func AsFloat(e Expression) float64     { return float64(e.(Float)) }
+func AsSymbol(e Expression) string     { return string(e.(Symbol)) }
+func AsFunction(e Expression) Function { return e.(Function) }
+func AsList(e Expression) List         { return e.(List) }

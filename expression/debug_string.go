@@ -5,29 +5,33 @@ import (
 	"strings"
 )
 
-type DebugStringVisitor struct {
+type debugStringVisitor struct {
 	indent string
 	str    string
 }
 
-func (vis *DebugStringVisitor) VisitIntLiteral(i int64) {
+func (vis *debugStringVisitor) VisitInt(i int64) {
 	vis.str = fmt.Sprintf("%sLit %d", vis.indent, i)
 }
 
-func (vis *DebugStringVisitor) VisitFloatLiteral(f float64) {
+func (vis *debugStringVisitor) VisitFloat(f float64) {
 	vis.str = fmt.Sprintf("%sLit %f", vis.indent, f)
 }
 
-func (vis *DebugStringVisitor) VisitSymbol(s string) {
+func (vis *debugStringVisitor) VisitSymbol(s string) {
 	vis.str = fmt.Sprintf("%sSym %s", vis.indent, s)
 }
 
-func (vis *DebugStringVisitor) VisitCompound(c Compound) {
+func (vis *debugStringVisitor) VisitFunction(fn Function) {
+	vis.str = fmt.Sprintf("%sFunction", vis.indent)
+}
+
+func (vis *debugStringVisitor) VisitList(l List) {
 	var sb strings.Builder
 	sb.WriteString(vis.indent)
-	sb.WriteString("Compound {\n")
-	for _, child := range c {
-		childVis := DebugStringVisitor{vis.indent + "  ", ""}
+	sb.WriteString("List {\n")
+	for _, child := range l {
+		childVis := debugStringVisitor{vis.indent + "  ", ""}
 		child.Visit(&childVis)
 		sb.WriteString(childVis.str)
 		sb.WriteString("\n")
@@ -38,7 +42,7 @@ func (vis *DebugStringVisitor) VisitCompound(c Compound) {
 }
 
 func DebugString(e Expression) string {
-	vis := DebugStringVisitor{"", ""}
+	vis := debugStringVisitor{"", ""}
 	e.Visit(&vis)
 	return vis.str
 }

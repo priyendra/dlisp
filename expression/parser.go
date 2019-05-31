@@ -35,28 +35,28 @@ func tokenize(input string) tokenStream {
 func parseAtom(token string) (Expression, error) {
 	// TODO(deshwal): Validate the tokens via regular expressions
 	if i, err := strconv.ParseInt(token, 10, 64); err == nil {
-		return IntLiteral(i), nil
+		return Int(i), nil
 	} else if f, err := strconv.ParseFloat(token, 64); err == nil {
-		return FloatLiteral(f), nil
+		return Float(f), nil
 	}
 	return Symbol(token), nil
 }
 
 func parseList(tokens *tokenStream) (Expression, error) {
-	c := Compound{}
+	l := List{}
 	for tokens.peek() != ")" && !tokens.done() {
 		child, err := parseHelper(tokens)
 		if err != nil {
 			return nil, err
 		}
-		c = append(c, child)
+		l = append(l, child)
 	}
 	if tokens.peek() != ")" {
 		return nil, errors.New("Unexpected syntax error")
 	} else {
 		tokens.next() // remove the trailing ')'
 	}
-	return c, nil
+	return l, nil
 }
 
 func parseHelper(tokens *tokenStream) (Expression, error) {

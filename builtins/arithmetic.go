@@ -2,48 +2,57 @@ package builtins
 
 import (
 	"errors"
-	"github.com/priyendra/dlisp/value"
 	"math"
+
+	"github.com/priyendra/dlisp/expression"
 )
 
 func genericArithemeticOperator(
-	args []value.Value,
+	args []expression.Expression,
 	intFn func(a int64, b int64) int64,
-	floatFn func(a float64, b float64) float64) (value.Value, error) {
+	floatFn func(a float64, b float64) float64) (expression.Expression, error) {
 	if len(args) != 2 {
 		return nil, errors.New("Arithmetic operator requires exactly two arguments")
 	}
 	allInts := true
 	var aInt, bInt int64
 	var aFloat, bFloat float64
-	switch value.ToType(args[0]) {
-	case value.INT:
-		aInt = int64(args[0].(value.Int))
+	switch expression.ToType(args[0]) {
+	case expression.INT:
+		aInt = expression.AsInt(args[0])
 		aFloat = float64(aInt)
-	case value.FLOAT:
+	case expression.FLOAT:
 		allInts = false
-		aFloat = float64(args[0].(value.Float))
-	case value.FUNCTION:
+		aFloat = expression.AsFloat(args[0])
+	case expression.SYMBOL:
+		fallthrough
+	case expression.FUNCTION:
+		fallthrough
+	case expression.LIST:
 		return nil, errors.New("Non-numeric argument to arithmetic operator")
 	}
-	switch value.ToType(args[1]) {
-	case value.INT:
-		bInt = int64(args[1].(value.Int))
+	switch expression.ToType(args[1]) {
+	case expression.INT:
+		bInt = expression.AsInt(args[1])
 		bFloat = float64(bInt)
-	case value.FLOAT:
+	case expression.FLOAT:
 		allInts = false
-		bFloat = float64(args[1].(value.Float))
-	case value.FUNCTION:
+		bFloat = expression.AsFloat(args[1])
+	case expression.SYMBOL:
+		fallthrough
+	case expression.FUNCTION:
+		fallthrough
+	case expression.LIST:
 		return nil, errors.New("Non-numeric argument to arithmetic operator")
 	}
 	if allInts {
-		return value.Int(intFn(aInt, bInt)), nil
+		return expression.Int(intFn(aInt, bInt)), nil
 	}
-	return value.Float(floatFn(aFloat, bFloat)), nil
+	return expression.Float(floatFn(aFloat, bFloat)), nil
 }
 
 var Plus BuiltinFn = BuiltinFn{
-	func(args []value.Value) (value.Value, error) {
+	func(args []expression.Expression) (expression.Expression, error) {
 		return genericArithemeticOperator(
 			args,
 			func(a int64, b int64) int64 { return a + b },
@@ -53,7 +62,7 @@ var Plus BuiltinFn = BuiltinFn{
 }
 
 var Minus BuiltinFn = BuiltinFn{
-	func(args []value.Value) (value.Value, error) {
+	func(args []expression.Expression) (expression.Expression, error) {
 		return genericArithemeticOperator(
 			args,
 			func(a int64, b int64) int64 { return a - b },
@@ -63,7 +72,7 @@ var Minus BuiltinFn = BuiltinFn{
 }
 
 var Multiply BuiltinFn = BuiltinFn{
-	func(args []value.Value) (value.Value, error) {
+	func(args []expression.Expression) (expression.Expression, error) {
 		return genericArithemeticOperator(
 			args,
 			func(a int64, b int64) int64 { return a * b },
@@ -73,7 +82,7 @@ var Multiply BuiltinFn = BuiltinFn{
 }
 
 var Divide BuiltinFn = BuiltinFn{
-	func(args []value.Value) (value.Value, error) {
+	func(args []expression.Expression) (expression.Expression, error) {
 		return genericArithemeticOperator(
 			args,
 			func(a int64, b int64) int64 { return a / b },
@@ -83,7 +92,7 @@ var Divide BuiltinFn = BuiltinFn{
 }
 
 var Mod BuiltinFn = BuiltinFn{
-	func(args []value.Value) (value.Value, error) {
+	func(args []expression.Expression) (expression.Expression, error) {
 		return genericArithemeticOperator(
 			args,
 			func(a int64, b int64) int64 { return a % b },
