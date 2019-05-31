@@ -19,7 +19,7 @@ func (fn BuiltinFn) Eval(
 var Identity BuiltinFn = BuiltinFn{
 	func(args []expression.Expression) (expression.Expression, error) {
 		if len(args) != 1 {
-			return nil, errors.New("Identity requires exactly one argument")
+			return nil, errors.New("Identity requires exactly one arg")
 		}
 		return args[0], nil
 	},

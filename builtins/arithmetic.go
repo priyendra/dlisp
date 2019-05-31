@@ -12,7 +12,7 @@ func genericArithemeticOperator(
 	intFn func(a int64, b int64) int64,
 	floatFn func(a float64, b float64) float64) (expression.Expression, error) {
 	if len(args) != 2 {
-		return nil, errors.New("Arithmetic operator requires exactly two arguments")
+		return nil, errors.New("Arithmetic operator requires exactly two args")
 	}
 	allInts := true
 	var aInt, bInt int64
@@ -29,7 +29,7 @@ func genericArithemeticOperator(
 	case expression.FUNCTION:
 		fallthrough
 	case expression.LIST:
-		return nil, errors.New("Non-numeric argument to arithmetic operator")
+		return nil, errors.New("Non-numeric arg to arithmetic operator")
 	}
 	switch expression.ToType(args[1]) {
 	case expression.INT:
@@ -43,7 +43,7 @@ func genericArithemeticOperator(
 	case expression.FUNCTION:
 		fallthrough
 	case expression.LIST:
-		return nil, errors.New("Non-numeric argument to arithmetic operator")
+		return nil, errors.New("Non-numeric arg to arithmetic operator")
 	}
 	if allInts {
 		return expression.Int(intFn(aInt, bInt)), nil

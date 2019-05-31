@@ -37,9 +37,37 @@ func (vis *evalVisitor) VisitFunction(fn Function) {
 	vis.err = nil
 }
 
+func (vis *evalVisitor) handleDefine(l List) {
+	if len(l) != 3 {
+		vis.val = nil
+		vis.err = errors.New("Define must have exactly two args")
+		return
+	}
+	if ToType(l[1]) != SYMBOL {
+		vis.val = nil
+		vis.err = errors.New("First arg to define must be symbol")
+		return
+	}
+	childVis := evalVisitor{vis.env, nil, nil}
+	l[2].Visit(&childVis)
+	if childVis.err != nil {
+		vis.val = nil
+		vis.err = errors.New("Could not eval second child of define expression")
+		return
+	}
+	vis.env.Names[AsSymbol(l[1])] = childVis.val
+	vis.val = childVis.val
+	vis.err = nil
+	return
+}
+
 func (vis *evalVisitor) VisitList(l List) {
 	if len(l) < 1 {
 		vis.err = errors.New("Empty list expression not supported")
+		return
+	}
+	if ToType(l[0]) == SYMBOL && AsSymbol(l[0]) == "define" {
+		vis.handleDefine(l)
 		return
 	}
 	childVis := evalVisitor{vis.env, nil, nil}

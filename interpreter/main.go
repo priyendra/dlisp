@@ -24,6 +24,7 @@ func stdEnv() expression.Environment {
 
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
+	env := stdEnv()
 	// Read eval print loop
 	for {
 		fmt.Print(">> ")
@@ -39,7 +40,6 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 		} else {
-			env := stdEnv()
 			val, err := expression.Eval(expr, &env)
 			if err != nil {
 				fmt.Println(err)
