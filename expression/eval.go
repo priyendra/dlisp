@@ -11,6 +11,11 @@ type evalVisitor struct {
 	err error
 }
 
+func (vis *evalVisitor) VisitBool(b bool) {
+	vis.val = Bool(b)
+	vis.err = nil
+}
+
 func (vis *evalVisitor) VisitInt(i int64) {
 	vis.val = Int(i)
 	vis.err = nil

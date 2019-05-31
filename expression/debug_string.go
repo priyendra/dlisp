@@ -10,12 +10,20 @@ type debugStringVisitor struct {
 	str    string
 }
 
+func (vis *debugStringVisitor) VisitBool(b bool) {
+	if b {
+		vis.str = fmt.Sprintf("%sConstant true", vis.indent)
+	} else {
+		vis.str = fmt.Sprintf("%sConstant false", vis.indent)
+	}
+}
+
 func (vis *debugStringVisitor) VisitInt(i int64) {
-	vis.str = fmt.Sprintf("%sLit %d", vis.indent, i)
+	vis.str = fmt.Sprintf("%sConstant %d", vis.indent, i)
 }
 
 func (vis *debugStringVisitor) VisitFloat(f float64) {
-	vis.str = fmt.Sprintf("%sLit %f", vis.indent, f)
+	vis.str = fmt.Sprintf("%sList %f", vis.indent, f)
 }
 
 func (vis *debugStringVisitor) VisitSymbol(s string) {

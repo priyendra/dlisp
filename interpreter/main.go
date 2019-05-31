@@ -12,13 +12,25 @@ import (
 
 func stdEnv() expression.Environment {
 	env := expression.NewEnvironment()
+	env.Names["pi"] = expression.Float(math.Pi)
 	env.Names["identity"] = builtins.Identity
 	env.Names["+"] = builtins.Plus
 	env.Names["-"] = builtins.Minus
 	env.Names["*"] = builtins.Multiply
 	env.Names["/"] = builtins.Divide
 	env.Names["%"] = builtins.Mod
-	env.Names["pi"] = expression.Float(math.Pi)
+	env.Names[">"] = builtins.GreaterThan
+	env.Names[">="] = builtins.GreaterEqual
+	env.Names["<"] = builtins.LessThan
+	env.Names["<="] = builtins.LessEqual
+	env.Names["="] = builtins.Equal
+	env.Names["!="] = builtins.NotEqual
+	env.Names["&&"] = builtins.LogicalAnd
+	env.Names["||"] = builtins.LogicalOr
+	env.Names["!"] = builtins.LogicalNot
+	env.Names["if"] = builtins.If
+	env.Names["true"] = expression.Bool(true)
+	env.Names["false"] = expression.Bool(false)
 	return env
 }
 

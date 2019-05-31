@@ -5,6 +5,7 @@ type typeVisitor struct {
 	etype Type
 }
 
+func (vis *typeVisitor) VisitBool(b bool)          { vis.etype = BOOL }
 func (vis *typeVisitor) VisitInt(i int64)          { vis.etype = INT }
 func (vis *typeVisitor) VisitFloat(f float64)      { vis.etype = FLOAT }
 func (vis *typeVisitor) VisitSymbol(s string)      { vis.etype = SYMBOL }

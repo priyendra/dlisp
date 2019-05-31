@@ -9,6 +9,13 @@ type stringifyVisitor struct {
 	str string
 }
 
+func (vis *stringifyVisitor) VisitBool(b bool) {
+	if b {
+		vis.str = "true"
+	} else {
+		vis.str = "false"
+	}
+}
 func (vis *stringifyVisitor) VisitInt(i int64) {
 	vis.str = fmt.Sprintf("%d", i)
 }

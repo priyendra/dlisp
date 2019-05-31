@@ -24,6 +24,8 @@ func genericArithemeticOperator(
 	case expression.FLOAT:
 		allInts = false
 		aFloat = expression.AsFloat(args[0])
+	case expression.BOOL:
+		fallthrough
 	case expression.SYMBOL:
 		fallthrough
 	case expression.FUNCTION:
@@ -38,6 +40,8 @@ func genericArithemeticOperator(
 	case expression.FLOAT:
 		allInts = false
 		bFloat = expression.AsFloat(args[1])
+	case expression.BOOL:
+		fallthrough
 	case expression.SYMBOL:
 		fallthrough
 	case expression.FUNCTION:
