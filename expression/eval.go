@@ -66,6 +66,16 @@ func (vis *evalVisitor) handleDefine(l List) {
 	return
 }
 
+func (vis *evalVisitor) handleQuote(l List) {
+	if len(l) != 2 {
+		vis.val = nil
+		vis.err = errors.New("Quote must have exactly one arg")
+		return
+	}
+	vis.val = l[1]
+	vis.err = nil
+}
+
 func (vis *evalVisitor) VisitList(l List) {
 	if len(l) < 1 {
 		vis.err = errors.New("Empty list expression not supported")
@@ -73,6 +83,10 @@ func (vis *evalVisitor) VisitList(l List) {
 	}
 	if ToType(l[0]) == SYMBOL && AsSymbol(l[0]) == "define" {
 		vis.handleDefine(l)
+		return
+	}
+	if ToType(l[0]) == SYMBOL && AsSymbol(l[0]) == "quote" {
+		vis.handleQuote(l)
 		return
 	}
 	childVis := evalVisitor{vis.env, nil, nil}

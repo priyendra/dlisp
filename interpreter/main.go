@@ -14,6 +14,13 @@ func stdEnv() expression.Environment {
 	env := expression.NewEnvironment()
 	env.Names["pi"] = expression.Float(math.Pi)
 	env.Names["identity"] = builtins.Identity
+	env.Names["append"] = builtins.Append
+	env.Names["car"] = builtins.Car
+	env.Names["cdr"] = builtins.Cdr
+	env.Names["cons"] = builtins.Cons
+	env.Names["len"] = builtins.Len
+
+	// Match functions
 	env.Names["abs"] = builtins.Abs
 	env.Names["acos"] = builtins.Acos
 	env.Names["acosh"] = builtins.Acosh
@@ -51,6 +58,8 @@ func stdEnv() expression.Environment {
 	env.Names["*"] = builtins.Multiply
 	env.Names["/"] = builtins.Divide
 	env.Names["%"] = builtins.Mod
+
+	// Relational & logical operators
 	env.Names[">"] = builtins.GreaterThan
 	env.Names[">="] = builtins.GreaterEqual
 	env.Names["<"] = builtins.LessThan
@@ -71,7 +80,7 @@ func main() {
 	env := stdEnv()
 	// Read eval print loop
 	for {
-		fmt.Print(">> ")
+		fmt.Print("$ ")
 		if !scanner.Scan() {
 			break
 		}
