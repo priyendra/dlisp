@@ -6,7 +6,7 @@ import (
 	"github.com/priyendra/dlisp/expression"
 )
 
-func genericRelationalOperator(
+func genericRelationalOp(
 	args []expression.Expression,
 	intFn func(a int64, b int64) bool,
 	floatFn func(a float64, b float64) bool) (expression.Expression, error) {
@@ -56,7 +56,7 @@ func genericRelationalOperator(
 
 var GreaterThan BuiltinFn = BuiltinFn{
 	func(args []expression.Expression) (expression.Expression, error) {
-		return genericRelationalOperator(
+		return genericRelationalOp(
 			args,
 			func(a int64, b int64) bool { return a > b },
 			func(a float64, b float64) bool { return a > b },
@@ -66,7 +66,7 @@ var GreaterThan BuiltinFn = BuiltinFn{
 
 var GreaterEqual BuiltinFn = BuiltinFn{
 	func(args []expression.Expression) (expression.Expression, error) {
-		return genericRelationalOperator(
+		return genericRelationalOp(
 			args,
 			func(a int64, b int64) bool { return a >= b },
 			func(a float64, b float64) bool { return a >= b },
@@ -76,7 +76,7 @@ var GreaterEqual BuiltinFn = BuiltinFn{
 
 var LessThan BuiltinFn = BuiltinFn{
 	func(args []expression.Expression) (expression.Expression, error) {
-		return genericRelationalOperator(
+		return genericRelationalOp(
 			args,
 			func(a int64, b int64) bool { return a < b },
 			func(a float64, b float64) bool { return a < b },
@@ -86,7 +86,7 @@ var LessThan BuiltinFn = BuiltinFn{
 
 var LessEqual BuiltinFn = BuiltinFn{
 	func(args []expression.Expression) (expression.Expression, error) {
-		return genericRelationalOperator(
+		return genericRelationalOp(
 			args,
 			func(a int64, b int64) bool { return a <= b },
 			func(a float64, b float64) bool { return a <= b },
@@ -108,7 +108,7 @@ var Equal BuiltinFn = BuiltinFn{
 			}
 		}
 		if allNumeric {
-			return genericRelationalOperator(
+			return genericRelationalOp(
 				args,
 				func(a int64, b int64) bool { return a == b },
 				func(a float64, b float64) bool { return a == b },
@@ -137,7 +137,7 @@ var NotEqual BuiltinFn = BuiltinFn{
 			}
 		}
 		if allNumeric {
-			return genericRelationalOperator(
+			return genericRelationalOp(
 				args,
 				func(a int64, b int64) bool { return a != b },
 				func(a float64, b float64) bool { return a != b },

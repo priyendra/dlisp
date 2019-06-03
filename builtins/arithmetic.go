@@ -7,7 +7,7 @@ import (
 	"github.com/priyendra/dlisp/expression"
 )
 
-func genericArithemeticOperator(
+func genericArithemeticOp(
 	args []expression.Expression,
 	intFn func(a int64, b int64) int64,
 	floatFn func(a float64, b float64) float64) (expression.Expression, error) {
@@ -57,7 +57,7 @@ func genericArithemeticOperator(
 
 var Plus BuiltinFn = BuiltinFn{
 	func(args []expression.Expression) (expression.Expression, error) {
-		return genericArithemeticOperator(
+		return genericArithemeticOp(
 			args,
 			func(a int64, b int64) int64 { return a + b },
 			func(a float64, b float64) float64 { return a + b },
@@ -67,7 +67,7 @@ var Plus BuiltinFn = BuiltinFn{
 
 var Minus BuiltinFn = BuiltinFn{
 	func(args []expression.Expression) (expression.Expression, error) {
-		return genericArithemeticOperator(
+		return genericArithemeticOp(
 			args,
 			func(a int64, b int64) int64 { return a - b },
 			func(a float64, b float64) float64 { return a - b },
@@ -77,7 +77,7 @@ var Minus BuiltinFn = BuiltinFn{
 
 var Multiply BuiltinFn = BuiltinFn{
 	func(args []expression.Expression) (expression.Expression, error) {
-		return genericArithemeticOperator(
+		return genericArithemeticOp(
 			args,
 			func(a int64, b int64) int64 { return a * b },
 			func(a float64, b float64) float64 { return a * b },
@@ -87,7 +87,7 @@ var Multiply BuiltinFn = BuiltinFn{
 
 var Divide BuiltinFn = BuiltinFn{
 	func(args []expression.Expression) (expression.Expression, error) {
-		return genericArithemeticOperator(
+		return genericArithemeticOp(
 			args,
 			func(a int64, b int64) int64 { return a / b },
 			func(a float64, b float64) float64 { return a / b },
@@ -95,9 +95,39 @@ var Divide BuiltinFn = BuiltinFn{
 	},
 }
 
+var Max BuiltinFn = BuiltinFn{
+	func(args []expression.Expression) (expression.Expression, error) {
+		return genericArithemeticOp(
+			args,
+			func(a int64, b int64) int64 {
+				if a > b {
+					return a
+				}
+				return b
+			},
+			func(a float64, b float64) float64 { return math.Max(a, b) },
+		)
+	},
+}
+
+var Min BuiltinFn = BuiltinFn{
+	func(args []expression.Expression) (expression.Expression, error) {
+		return genericArithemeticOp(
+			args,
+			func(a int64, b int64) int64 {
+				if a < b {
+					return a
+				}
+				return b
+			},
+			func(a float64, b float64) float64 { return math.Min(a, b) },
+		)
+	},
+}
+
 var Mod BuiltinFn = BuiltinFn{
 	func(args []expression.Expression) (expression.Expression, error) {
-		return genericArithemeticOperator(
+		return genericArithemeticOp(
 			args,
 			func(a int64, b int64) int64 { return a % b },
 			func(a float64, b float64) float64 { return math.Mod(a, b) },
