@@ -55,7 +55,8 @@ func genericRelationalOp(
 }
 
 var GreaterThan BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericRelationalOp(
 			args,
 			func(a int64, b int64) bool { return a > b },
@@ -65,7 +66,8 @@ var GreaterThan BuiltinFn = BuiltinFn{
 }
 
 var GreaterEqual BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericRelationalOp(
 			args,
 			func(a int64, b int64) bool { return a >= b },
@@ -75,7 +77,8 @@ var GreaterEqual BuiltinFn = BuiltinFn{
 }
 
 var LessThan BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericRelationalOp(
 			args,
 			func(a int64, b int64) bool { return a < b },
@@ -85,7 +88,8 @@ var LessThan BuiltinFn = BuiltinFn{
 }
 
 var LessEqual BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericRelationalOp(
 			args,
 			func(a int64, b int64) bool { return a <= b },
@@ -95,7 +99,8 @@ var LessEqual BuiltinFn = BuiltinFn{
 }
 
 var Equal BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		allNumeric := true
 		allBool := true
 		for _, a := range args {
@@ -124,7 +129,8 @@ var Equal BuiltinFn = BuiltinFn{
 }
 
 var NotEqual BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		allNumeric := true
 		allBool := true
 		for _, a := range args {

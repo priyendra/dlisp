@@ -56,7 +56,8 @@ func genericArithemeticOp(
 }
 
 var Plus BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericArithemeticOp(
 			args,
 			func(a int64, b int64) int64 { return a + b },
@@ -66,7 +67,8 @@ var Plus BuiltinFn = BuiltinFn{
 }
 
 var Minus BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericArithemeticOp(
 			args,
 			func(a int64, b int64) int64 { return a - b },
@@ -76,7 +78,8 @@ var Minus BuiltinFn = BuiltinFn{
 }
 
 var Multiply BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericArithemeticOp(
 			args,
 			func(a int64, b int64) int64 { return a * b },
@@ -86,7 +89,8 @@ var Multiply BuiltinFn = BuiltinFn{
 }
 
 var Divide BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericArithemeticOp(
 			args,
 			func(a int64, b int64) int64 { return a / b },
@@ -96,7 +100,8 @@ var Divide BuiltinFn = BuiltinFn{
 }
 
 var Max BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericArithemeticOp(
 			args,
 			func(a int64, b int64) int64 {
@@ -111,7 +116,8 @@ var Max BuiltinFn = BuiltinFn{
 }
 
 var Min BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericArithemeticOp(
 			args,
 			func(a int64, b int64) int64 {
@@ -126,7 +132,8 @@ var Min BuiltinFn = BuiltinFn{
 }
 
 var Mod BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericArithemeticOp(
 			args,
 			func(a int64, b int64) int64 { return a % b },

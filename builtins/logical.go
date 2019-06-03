@@ -7,7 +7,8 @@ import (
 )
 
 var LogicalAnd BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		if len(args) != 2 {
 			return nil, errors.New("Logical operator AND requires exactly two args")
 		}
@@ -22,7 +23,8 @@ var LogicalAnd BuiltinFn = BuiltinFn{
 }
 
 var LogicalOr BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		if len(args) != 2 {
 			return nil, errors.New("Logical operator AND requires exactly two args")
 		}
@@ -37,7 +39,8 @@ var LogicalOr BuiltinFn = BuiltinFn{
 }
 
 var LogicalNot BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		if len(args) != 1 {
 			return nil, errors.New("Logical operator NOT requires exactly one arg")
 		}

@@ -31,7 +31,8 @@ func genericFloatOp(
 }
 
 var Abs BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		if len(args) != 1 {
 			return nil, errors.New("Abs requires exactly one arg")
 		}
@@ -58,7 +59,8 @@ var Abs BuiltinFn = BuiltinFn{
 }
 
 var Acos BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Acos(in) },
@@ -67,7 +69,8 @@ var Acos BuiltinFn = BuiltinFn{
 }
 
 var Acosh BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Acosh(in) },
@@ -76,7 +79,8 @@ var Acosh BuiltinFn = BuiltinFn{
 }
 
 var Asin BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Asin(in) },
@@ -85,7 +89,8 @@ var Asin BuiltinFn = BuiltinFn{
 }
 
 var Asinh BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Asinh(in) },
@@ -94,7 +99,8 @@ var Asinh BuiltinFn = BuiltinFn{
 }
 
 var Atan BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Atan(in) },
@@ -103,7 +109,8 @@ var Atan BuiltinFn = BuiltinFn{
 }
 
 var Atanh BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Atanh(in) },
@@ -112,7 +119,8 @@ var Atanh BuiltinFn = BuiltinFn{
 }
 
 var Cbrt BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Cbrt(in) },
@@ -121,7 +129,8 @@ var Cbrt BuiltinFn = BuiltinFn{
 }
 
 var Ceil BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Ceil(in) },
@@ -130,7 +139,8 @@ var Ceil BuiltinFn = BuiltinFn{
 }
 
 var Cos BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Cos(in) },
@@ -139,7 +149,8 @@ var Cos BuiltinFn = BuiltinFn{
 }
 
 var Cosh BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Cosh(in) },
@@ -148,7 +159,8 @@ var Cosh BuiltinFn = BuiltinFn{
 }
 
 var Erf BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Erf(in) },
@@ -157,7 +169,8 @@ var Erf BuiltinFn = BuiltinFn{
 }
 
 var Erfc BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Erfc(in) },
@@ -166,7 +179,8 @@ var Erfc BuiltinFn = BuiltinFn{
 }
 
 var Erfcinv BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Erfcinv(in) },
@@ -175,7 +189,8 @@ var Erfcinv BuiltinFn = BuiltinFn{
 }
 
 var Erfinv BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Erfinv(in) },
@@ -184,7 +199,8 @@ var Erfinv BuiltinFn = BuiltinFn{
 }
 
 var Exp BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Exp(in) },
@@ -193,7 +209,8 @@ var Exp BuiltinFn = BuiltinFn{
 }
 
 var Exp2 BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Exp2(in) },
@@ -202,7 +219,8 @@ var Exp2 BuiltinFn = BuiltinFn{
 }
 
 var Floor BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Floor(in) },
@@ -211,7 +229,8 @@ var Floor BuiltinFn = BuiltinFn{
 }
 
 var Gamma BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Gamma(in) },
@@ -220,7 +239,8 @@ var Gamma BuiltinFn = BuiltinFn{
 }
 
 var Log BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Log(in) },
@@ -229,7 +249,8 @@ var Log BuiltinFn = BuiltinFn{
 }
 
 var Log10 BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Log10(in) },
@@ -238,7 +259,8 @@ var Log10 BuiltinFn = BuiltinFn{
 }
 
 var Log2 BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Log2(in) },
@@ -247,7 +269,8 @@ var Log2 BuiltinFn = BuiltinFn{
 }
 
 var Round BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Round(in) },
@@ -256,7 +279,8 @@ var Round BuiltinFn = BuiltinFn{
 }
 
 var Sin BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Sin(in) },
@@ -265,7 +289,8 @@ var Sin BuiltinFn = BuiltinFn{
 }
 
 var Sinh BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Sinh(in) },
@@ -274,7 +299,8 @@ var Sinh BuiltinFn = BuiltinFn{
 }
 
 var Sqrt BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Sqrt(in) },
@@ -283,7 +309,8 @@ var Sqrt BuiltinFn = BuiltinFn{
 }
 
 var Tan BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Tan(in) },
@@ -292,7 +319,8 @@ var Tan BuiltinFn = BuiltinFn{
 }
 
 var Tanh BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Tanh(in) },
@@ -301,7 +329,8 @@ var Tanh BuiltinFn = BuiltinFn{
 }
 
 var Trunc BuiltinFn = BuiltinFn{
-	func(args []expression.Expression) (expression.Expression, error) {
+	func(env *expression.Environment, args []expression.Expression) (
+		expression.Expression, error) {
 		return genericFloatOp(
 			args,
 			func(in float64) float64 { return math.Trunc(in) },

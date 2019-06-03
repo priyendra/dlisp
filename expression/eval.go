@@ -114,7 +114,7 @@ func (vis *evalVisitor) VisitList(l List) {
 		}
 		args[i] = childVis2.val
 	}
-	vis.val, vis.err = AsFunction(childVis.val).Eval(args)
+	vis.val, vis.err = AsFunction(childVis.val).Eval(vis.env, args)
 }
 
 func Eval(e Expression, env *Environment) (Expression, error) {

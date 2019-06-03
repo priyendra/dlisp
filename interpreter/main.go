@@ -19,6 +19,7 @@ func stdEnv() expression.Environment {
 	env.Names["cdr"] = builtins.Cdr
 	env.Names["cons"] = builtins.Cons
 	env.Names["len"] = builtins.Len
+	env.Names["map"] = builtins.Map
 
 	// Match functions
 	env.Names["abs"] = builtins.Abs
