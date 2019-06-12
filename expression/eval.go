@@ -6,7 +6,7 @@ import (
 )
 
 type evalVisitor struct {
-	env *Environment
+	env Environment
 	val Expression
 	err error
 }
@@ -27,14 +27,7 @@ func (vis *evalVisitor) VisitFloat(f float64) {
 }
 
 func (vis *evalVisitor) VisitSymbol(s string) {
-	val, found := vis.env.Names[s]
-	if !found {
-		vis.val = nil
-		vis.err = errors.New(fmt.Sprintf("Undefined symbol: '%s'", s))
-		return
-	}
-	vis.val = val
-	vis.err = nil
+	vis.val, vis.err = vis.env.LookupVar(s)
 }
 
 func (vis *evalVisitor) VisitFunction(fn Function) {
@@ -60,7 +53,7 @@ func (vis *evalVisitor) handleDefine(l List) {
 		vis.err = errors.New("Could not eval second child of define expression")
 		return
 	}
-	vis.env.Names[AsSymbol(l[1])] = childVis.val
+	vis.env.SetVar(AsSymbol(l[1]), childVis.val)
 	vis.val = childVis.val
 	vis.err = nil
 	return
@@ -117,7 +110,7 @@ func (vis *evalVisitor) VisitList(l List) {
 	vis.val, vis.err = AsFunction(childVis.val).Eval(vis.env, args)
 }
 
-func Eval(e Expression, env *Environment) (Expression, error) {
+func Eval(e Expression, env Environment) (Expression, error) {
 	vis := evalVisitor{env, nil, nil}
 	e.Visit(&vis)
 	return vis.val, vis.err

@@ -31,7 +31,7 @@ func genericFloatOp(
 }
 
 var Abs BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		if len(args) != 1 {
 			return nil, errors.New("Abs requires exactly one arg")
@@ -59,7 +59,7 @@ var Abs BuiltinFn = BuiltinFn{
 }
 
 var Acos BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -69,7 +69,7 @@ var Acos BuiltinFn = BuiltinFn{
 }
 
 var Acosh BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -79,7 +79,7 @@ var Acosh BuiltinFn = BuiltinFn{
 }
 
 var Asin BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -89,7 +89,7 @@ var Asin BuiltinFn = BuiltinFn{
 }
 
 var Asinh BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -99,7 +99,7 @@ var Asinh BuiltinFn = BuiltinFn{
 }
 
 var Atan BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -109,7 +109,7 @@ var Atan BuiltinFn = BuiltinFn{
 }
 
 var Atanh BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -119,7 +119,7 @@ var Atanh BuiltinFn = BuiltinFn{
 }
 
 var Cbrt BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -129,7 +129,7 @@ var Cbrt BuiltinFn = BuiltinFn{
 }
 
 var Ceil BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -139,7 +139,7 @@ var Ceil BuiltinFn = BuiltinFn{
 }
 
 var Cos BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -149,7 +149,7 @@ var Cos BuiltinFn = BuiltinFn{
 }
 
 var Cosh BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -159,7 +159,7 @@ var Cosh BuiltinFn = BuiltinFn{
 }
 
 var Erf BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -169,7 +169,7 @@ var Erf BuiltinFn = BuiltinFn{
 }
 
 var Erfc BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -179,7 +179,7 @@ var Erfc BuiltinFn = BuiltinFn{
 }
 
 var Erfcinv BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -189,7 +189,7 @@ var Erfcinv BuiltinFn = BuiltinFn{
 }
 
 var Erfinv BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -199,7 +199,7 @@ var Erfinv BuiltinFn = BuiltinFn{
 }
 
 var Exp BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -209,7 +209,7 @@ var Exp BuiltinFn = BuiltinFn{
 }
 
 var Exp2 BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -219,7 +219,7 @@ var Exp2 BuiltinFn = BuiltinFn{
 }
 
 var Floor BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -229,7 +229,7 @@ var Floor BuiltinFn = BuiltinFn{
 }
 
 var Gamma BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -239,7 +239,7 @@ var Gamma BuiltinFn = BuiltinFn{
 }
 
 var Log BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -249,7 +249,7 @@ var Log BuiltinFn = BuiltinFn{
 }
 
 var Log10 BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -259,7 +259,7 @@ var Log10 BuiltinFn = BuiltinFn{
 }
 
 var Log2 BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -269,7 +269,7 @@ var Log2 BuiltinFn = BuiltinFn{
 }
 
 var Round BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -279,7 +279,7 @@ var Round BuiltinFn = BuiltinFn{
 }
 
 var Sin BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -289,7 +289,7 @@ var Sin BuiltinFn = BuiltinFn{
 }
 
 var Sinh BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -299,7 +299,7 @@ var Sinh BuiltinFn = BuiltinFn{
 }
 
 var Sqrt BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -309,7 +309,7 @@ var Sqrt BuiltinFn = BuiltinFn{
 }
 
 var Tan BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -319,7 +319,7 @@ var Tan BuiltinFn = BuiltinFn{
 }
 
 var Tanh BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,
@@ -329,7 +329,7 @@ var Tanh BuiltinFn = BuiltinFn{
 }
 
 var Trunc BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericFloatOp(
 			args,

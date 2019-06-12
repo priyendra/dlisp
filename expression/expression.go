@@ -1,5 +1,10 @@
 package expression
 
+type Environment interface {
+	LookupVar(name string) (Expression, error)
+	SetVar(name string, value Expression)
+}
+
 type Type int
 
 const (
@@ -30,7 +35,7 @@ type Float float64
 type Symbol string
 type Function interface {
 	Expression
-	Eval(env *Environment, args []Expression) (Expression, error)
+	Eval(env Environment, args []Expression) (Expression, error)
 }
 type List []Expression
 

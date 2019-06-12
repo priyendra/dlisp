@@ -55,7 +55,7 @@ func genericRelationalOp(
 }
 
 var GreaterThan BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericRelationalOp(
 			args,
@@ -66,7 +66,7 @@ var GreaterThan BuiltinFn = BuiltinFn{
 }
 
 var GreaterEqual BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericRelationalOp(
 			args,
@@ -77,7 +77,7 @@ var GreaterEqual BuiltinFn = BuiltinFn{
 }
 
 var LessThan BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericRelationalOp(
 			args,
@@ -88,7 +88,7 @@ var LessThan BuiltinFn = BuiltinFn{
 }
 
 var LessEqual BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		return genericRelationalOp(
 			args,
@@ -99,7 +99,7 @@ var LessEqual BuiltinFn = BuiltinFn{
 }
 
 var Equal BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		allNumeric := true
 		allBool := true
@@ -129,7 +129,7 @@ var Equal BuiltinFn = BuiltinFn{
 }
 
 var NotEqual BuiltinFn = BuiltinFn{
-	func(env *expression.Environment, args []expression.Expression) (
+	func(env expression.Environment, args []expression.Expression) (
 		expression.Expression, error) {
 		allNumeric := true
 		allBool := true

@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"math"
 	"os"
@@ -10,74 +11,91 @@ import (
 	"github.com/priyendra/dlisp/expression"
 )
 
+type StdEnvironment struct {
+	vars map[string]expression.Expression
+}
+
+func (env StdEnvironment) LookupVar(name string) (
+	expression.Expression, error) {
+	val, ok := env.vars[name]
+	if !ok {
+		return nil, errors.New(fmt.Sprintf("Undefined value: '%s'", name))
+	}
+	return val, nil
+}
+
+func (env *StdEnvironment) SetVar(name string, value expression.Expression) {
+	env.vars[name] = value
+}
+
 func stdEnv() expression.Environment {
-	env := expression.NewEnvironment()
+	env := StdEnvironment{map[string]expression.Expression{}}
 
 	// List functions
-	env.Names["append"] = builtins.Append
-	env.Names["car"] = builtins.Car
-	env.Names["cdr"] = builtins.Cdr
-	env.Names["cons"] = builtins.Cons
-	env.Names["len"] = builtins.Len
-	env.Names["map"] = builtins.Map
+	env.vars["append"] = builtins.Append
+	env.vars["car"] = builtins.Car
+	env.vars["cdr"] = builtins.Cdr
+	env.vars["cons"] = builtins.Cons
+	env.vars["len"] = builtins.Len
+	env.vars["map"] = builtins.Map
 
 	// Math functions
-	env.Names["abs"] = builtins.Abs
-	env.Names["acos"] = builtins.Acos
-	env.Names["acosh"] = builtins.Acosh
-	env.Names["asin"] = builtins.Asin
-	env.Names["asinh"] = builtins.Asinh
-	env.Names["atan"] = builtins.Atan
-	env.Names["atanh"] = builtins.Atanh
-	env.Names["cbrt"] = builtins.Cbrt
-	env.Names["ceil"] = builtins.Ceil
-	env.Names["cos"] = builtins.Cos
-	env.Names["cosh"] = builtins.Cosh
-	env.Names["erf"] = builtins.Erf
-	env.Names["erfc"] = builtins.Erfc
-	env.Names["erfcinv"] = builtins.Erfcinv
-	env.Names["erfinv"] = builtins.Erfinv
-	env.Names["exp"] = builtins.Exp
-	env.Names["exp2"] = builtins.Exp2
-	env.Names["floor"] = builtins.Floor
-	env.Names["gamma"] = builtins.Gamma
-	env.Names["log"] = builtins.Log
-	env.Names["log10"] = builtins.Log10
-	env.Names["log2"] = builtins.Log2
-	env.Names["round"] = builtins.Round
-	env.Names["sqrt"] = builtins.Sqrt
-	env.Names["trunc"] = builtins.Trunc
-	env.Names["max"] = builtins.Max
-	env.Names["min"] = builtins.Min
-	env.Names["mod"] = builtins.Mod
-	env.Names["sin"] = builtins.Sin
-	env.Names["sinh"] = builtins.Sinh
-	env.Names["tan"] = builtins.Tan
-	env.Names["tanh"] = builtins.Tanh
-	env.Names["+"] = builtins.Plus
-	env.Names["-"] = builtins.Minus
-	env.Names["*"] = builtins.Multiply
-	env.Names["/"] = builtins.Divide
-	env.Names["%"] = builtins.Mod
+	env.vars["abs"] = builtins.Abs
+	env.vars["acos"] = builtins.Acos
+	env.vars["acosh"] = builtins.Acosh
+	env.vars["asin"] = builtins.Asin
+	env.vars["asinh"] = builtins.Asinh
+	env.vars["atan"] = builtins.Atan
+	env.vars["atanh"] = builtins.Atanh
+	env.vars["cbrt"] = builtins.Cbrt
+	env.vars["ceil"] = builtins.Ceil
+	env.vars["cos"] = builtins.Cos
+	env.vars["cosh"] = builtins.Cosh
+	env.vars["erf"] = builtins.Erf
+	env.vars["erfc"] = builtins.Erfc
+	env.vars["erfcinv"] = builtins.Erfcinv
+	env.vars["erfinv"] = builtins.Erfinv
+	env.vars["exp"] = builtins.Exp
+	env.vars["exp2"] = builtins.Exp2
+	env.vars["floor"] = builtins.Floor
+	env.vars["gamma"] = builtins.Gamma
+	env.vars["log"] = builtins.Log
+	env.vars["log10"] = builtins.Log10
+	env.vars["log2"] = builtins.Log2
+	env.vars["round"] = builtins.Round
+	env.vars["sqrt"] = builtins.Sqrt
+	env.vars["trunc"] = builtins.Trunc
+	env.vars["max"] = builtins.Max
+	env.vars["min"] = builtins.Min
+	env.vars["mod"] = builtins.Mod
+	env.vars["sin"] = builtins.Sin
+	env.vars["sinh"] = builtins.Sinh
+	env.vars["tan"] = builtins.Tan
+	env.vars["tanh"] = builtins.Tanh
+	env.vars["+"] = builtins.Plus
+	env.vars["-"] = builtins.Minus
+	env.vars["*"] = builtins.Multiply
+	env.vars["/"] = builtins.Divide
+	env.vars["%"] = builtins.Mod
 
 	// Relational & logical operators
-	env.Names[">"] = builtins.GreaterThan
-	env.Names[">="] = builtins.GreaterEqual
-	env.Names["<"] = builtins.LessThan
-	env.Names["<="] = builtins.LessEqual
-	env.Names["="] = builtins.Equal
-	env.Names["!="] = builtins.NotEqual
-	env.Names["&&"] = builtins.LogicalAnd
-	env.Names["||"] = builtins.LogicalOr
-	env.Names["!"] = builtins.LogicalNot
-	env.Names["if"] = builtins.If
-	env.Names["true"] = expression.Bool(true)
-	env.Names["false"] = expression.Bool(false)
+	env.vars[">"] = builtins.GreaterThan
+	env.vars[">="] = builtins.GreaterEqual
+	env.vars["<"] = builtins.LessThan
+	env.vars["<="] = builtins.LessEqual
+	env.vars["="] = builtins.Equal
+	env.vars["!="] = builtins.NotEqual
+	env.vars["&&"] = builtins.LogicalAnd
+	env.vars["||"] = builtins.LogicalOr
+	env.vars["!"] = builtins.LogicalNot
+	env.vars["if"] = builtins.If
+	env.vars["true"] = expression.Bool(true)
+	env.vars["false"] = expression.Bool(false)
 
 	// General functions
-	env.Names["pi"] = expression.Float(math.Pi)
-	env.Names["identity"] = builtins.Identity
-	return env
+	env.vars["pi"] = expression.Float(math.Pi)
+	env.vars["identity"] = builtins.Identity
+	return &env
 }
 
 func main() {
@@ -98,7 +116,7 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 		} else {
-			val, err := expression.Eval(expr, &env)
+			val, err := expression.Eval(expr, env)
 			if err != nil {
 				fmt.Println(err)
 			} else {
