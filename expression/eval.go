@@ -69,6 +69,29 @@ func (vis *evalVisitor) handleQuote(l List) {
 	vis.err = nil
 }
 
+func (vis *evalVisitor) handleLambda(l List) {
+	if len(l) != 3 {
+		vis.val = nil
+		vis.err = errors.New("Lambda must have exactly two args")
+		return
+	}
+	if ToType(l[1]) != LIST {
+		vis.val = nil
+		vis.err = errors.New("2nd arg to lambda must be a list of symbols")
+		return
+	}
+	args := AsList(l[1])
+	for _, a := range args {
+		if ToType(a) != SYMBOL {
+			vis.val = nil
+			vis.err = errors.New("2nd arg to lambda must be a list of symbols")
+			return
+		}
+	}
+	vis.val = UserFunction{args, l[2]}
+	vis.err = nil
+}
+
 func (vis *evalVisitor) VisitList(l List) {
 	if len(l) < 1 {
 		vis.err = errors.New("Empty list expression not supported")
@@ -80,6 +103,10 @@ func (vis *evalVisitor) VisitList(l List) {
 	}
 	if ToType(l[0]) == SYMBOL && AsSymbol(l[0]) == "quote" {
 		vis.handleQuote(l)
+		return
+	}
+	if ToType(l[0]) == SYMBOL && AsSymbol(l[0]) == "lambda" {
+		vis.handleLambda(l)
 		return
 	}
 	childVis := evalVisitor{vis.env, nil, nil}
