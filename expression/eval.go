@@ -92,6 +92,34 @@ func (vis *evalVisitor) handleLambda(l List) {
 	vis.err = nil
 }
 
+// We need to support if as a special case to ensure that we only evaluate the
+// branch of the if that matches. Recursive functions do not terminate otherwise
+// at the base case if we perenially evaluate both branches.
+func (vis *evalVisitor) handleIf(l List) {
+	if len(l) != 4 {
+		vis.val = nil
+		vis.err = errors.New(
+			"If expression must have the syntax (if condition then else)")
+		return
+	}
+	condition, err := Eval(l[1], vis.env)
+	if err != nil {
+		vis.val = nil
+		vis.err = errors.New("Could not eval if condition")
+		return
+	}
+	if ToType(condition) != BOOL {
+		vis.val = nil
+		vis.err = errors.New("If condition must eval to boolean type")
+		return
+	}
+	if AsBool(condition) {
+		vis.val, vis.err = Eval(l[2], vis.env)
+		return
+	}
+	vis.val, vis.err = Eval(l[3], vis.env)
+}
+
 func (vis *evalVisitor) VisitList(l List) {
 	if len(l) < 1 {
 		vis.err = errors.New("Empty list expression not supported")
@@ -107,6 +135,10 @@ func (vis *evalVisitor) VisitList(l List) {
 	}
 	if ToType(l[0]) == SYMBOL && AsSymbol(l[0]) == "lambda" {
 		vis.handleLambda(l)
+		return
+	}
+	if ToType(l[0]) == SYMBOL && AsSymbol(l[0]) == "if" {
+		vis.handleIf(l)
 		return
 	}
 	childVis := evalVisitor{vis.env, nil, nil}

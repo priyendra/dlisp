@@ -88,7 +88,6 @@ func stdEnv() expression.Environment {
 	env.vars["&&"] = builtins.LogicalAnd
 	env.vars["||"] = builtins.LogicalOr
 	env.vars["!"] = builtins.LogicalNot
-	env.vars["if"] = builtins.If
 	env.vars["true"] = expression.Bool(true)
 	env.vars["false"] = expression.Bool(false)
 

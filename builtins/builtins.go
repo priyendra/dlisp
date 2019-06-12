@@ -27,19 +27,3 @@ var Identity BuiltinFn = BuiltinFn{
 		return args[0], nil
 	},
 }
-
-var If BuiltinFn = BuiltinFn{
-	func(env expression.Environment, args []expression.Expression) (
-		expression.Expression, error) {
-		if len(args) != 3 {
-			return nil, errors.New("If requires exactly three args")
-		}
-		if expression.ToType(args[0]) != expression.BOOL {
-			return nil, errors.New("If: 0th arg must be of bool type")
-		}
-		if expression.AsBool(args[0]) {
-			return args[1], nil
-		}
-		return args[2], nil
-	},
-}
