@@ -12,8 +12,8 @@ import (
 
 func stdEnv() expression.Environment {
 	env := expression.NewEnvironment()
-	env.Names["pi"] = expression.Float(math.Pi)
-	env.Names["identity"] = builtins.Identity
+
+	// List functions
 	env.Names["append"] = builtins.Append
 	env.Names["car"] = builtins.Car
 	env.Names["cdr"] = builtins.Cdr
@@ -21,7 +21,7 @@ func stdEnv() expression.Environment {
 	env.Names["len"] = builtins.Len
 	env.Names["map"] = builtins.Map
 
-	// Match functions
+	// Math functions
 	env.Names["abs"] = builtins.Abs
 	env.Names["acos"] = builtins.Acos
 	env.Names["acosh"] = builtins.Acosh
@@ -73,6 +73,10 @@ func stdEnv() expression.Environment {
 	env.Names["if"] = builtins.If
 	env.Names["true"] = expression.Bool(true)
 	env.Names["false"] = expression.Bool(false)
+
+	// General functions
+	env.Names["pi"] = expression.Float(math.Pi)
+	env.Names["identity"] = builtins.Identity
 	return env
 }
 
