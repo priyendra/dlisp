@@ -19,11 +19,11 @@ func (vis *debugStringVisitor) VisitBool(b bool) {
 }
 
 func (vis *debugStringVisitor) VisitInt(i int64) {
-	vis.str = fmt.Sprintf("%sConstant %d", vis.indent, i)
+	vis.str = fmt.Sprintf("%sIntConstant %d", vis.indent, i)
 }
 
 func (vis *debugStringVisitor) VisitFloat(f float64) {
-	vis.str = fmt.Sprintf("%sList %f", vis.indent, f)
+	vis.str = fmt.Sprintf("%sFloatConstant %f", vis.indent, f)
 }
 
 func (vis *debugStringVisitor) VisitSymbol(s string) {

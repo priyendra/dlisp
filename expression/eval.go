@@ -50,7 +50,8 @@ func (vis *evalVisitor) handleDefine(l List) {
 	l[2].Visit(&childVis)
 	if childVis.err != nil {
 		vis.val = nil
-		vis.err = errors.New("Could not eval second child of define expression")
+		vis.err = errors.New("Could not eval second child of define expression: " +
+			DebugString(l[2]))
 		return
 	}
 	vis.env.SetVar(AsSymbol(l[1]), childVis.val)
@@ -105,7 +106,7 @@ func (vis *evalVisitor) handleIf(l List) {
 	condition, err := Eval(l[1], vis.env)
 	if err != nil {
 		vis.val = nil
-		vis.err = errors.New("Could not eval if condition")
+		vis.err = errors.New("Could not eval if condition: " + DebugString(l[1]))
 		return
 	}
 	if ToType(condition) != BOOL {
@@ -145,7 +146,8 @@ func (vis *evalVisitor) VisitList(l List) {
 	l[0].Visit(&childVis)
 	if childVis.err != nil {
 		vis.val = nil
-		vis.err = errors.New("Could not eval first child of list expression")
+		vis.err = errors.New("Could not eval first child of list expression: " +
+			DebugString(l[0]))
 		return
 	}
 	if ToType(childVis.val) != FUNCTION {
@@ -160,7 +162,7 @@ func (vis *evalVisitor) VisitList(l List) {
 		child.Visit(&childVis2)
 		if childVis2.err != nil {
 			vis.err = errors.New(fmt.Sprintf(
-				"Could not eval %d-th arg of list expression (%s)",
+				"Could not eval %d-th arg of list expression (%s): "+DebugString(child),
 				i+1, childVis2.err.Error()))
 			return
 		}
