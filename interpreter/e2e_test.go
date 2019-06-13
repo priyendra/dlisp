@@ -122,3 +122,17 @@ func TestFive(t *testing.T) {
 		t.Error("Expected 3, got ", expression.DebugString(result))
 	}
 }
+
+func TestSix(t *testing.T) {
+	result, err := Eval(Program{
+		"(define twice (lambda (x) (* 2 x)))",
+		"(define repeat (lambda (f) (lambda (x) (f (f x)))))",
+		"((repeat twice) 10)",
+	})
+	if err != nil {
+		t.Error("Could not eval program", err)
+	}
+	if !checkValue(result, expression.INT, int64(40)) {
+		t.Error("Expected 40, got ", expression.DebugString(result))
+	}
+}

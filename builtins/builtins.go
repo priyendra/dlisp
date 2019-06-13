@@ -7,19 +7,18 @@ import (
 )
 
 type BuiltinFn struct {
-	fn func(env expression.Environment, args []expression.Expression) (
+	fn func(args []expression.Expression) (
 		expression.Expression, error)
 }
 
 func (fn BuiltinFn) Visit(vis expression.Visitor) { vis.VisitFunction(fn) }
-func (fn BuiltinFn) Eval(
-	env expression.Environment,
-	args []expression.Expression) (expression.Expression, error) {
-	return fn.fn(env, args)
+func (fn BuiltinFn) Eval(args []expression.Expression) (
+	expression.Expression, error) {
+	return fn.fn(args)
 }
 
 var Identity BuiltinFn = BuiltinFn{
-	func(env expression.Environment, args []expression.Expression) (
+	func(args []expression.Expression) (
 		expression.Expression, error) {
 		if len(args) != 1 {
 			return nil, errors.New("Identity requires exactly one arg")

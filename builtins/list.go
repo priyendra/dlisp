@@ -7,7 +7,7 @@ import (
 )
 
 var Append BuiltinFn = BuiltinFn{
-	func(env expression.Environment, args []expression.Expression) (
+	func(args []expression.Expression) (
 		expression.Expression, error) {
 		if len(args) != 2 {
 			return nil, errors.New("Append operator requires exactly two args")
@@ -20,7 +20,7 @@ var Append BuiltinFn = BuiltinFn{
 }
 
 var Car BuiltinFn = BuiltinFn{
-	func(env expression.Environment, args []expression.Expression) (
+	func(args []expression.Expression) (
 		expression.Expression, error) {
 		if len(args) == 0 {
 			return nil, errors.New("Car operator requires exactly one arg")
@@ -33,7 +33,7 @@ var Car BuiltinFn = BuiltinFn{
 }
 
 var Cdr BuiltinFn = BuiltinFn{
-	func(env expression.Environment, args []expression.Expression) (
+	func(args []expression.Expression) (
 		expression.Expression, error) {
 		if len(args) == 0 {
 			return nil, errors.New("Cdr operator requires exactly one arg")
@@ -46,7 +46,7 @@ var Cdr BuiltinFn = BuiltinFn{
 }
 
 var Cons BuiltinFn = BuiltinFn{
-	func(env expression.Environment, args []expression.Expression) (
+	func(args []expression.Expression) (
 		expression.Expression, error) {
 		if len(args) != 2 {
 			return nil, errors.New("Cons operator requires exactly two args")
@@ -56,7 +56,7 @@ var Cons BuiltinFn = BuiltinFn{
 }
 
 var Len BuiltinFn = BuiltinFn{
-	func(env expression.Environment, args []expression.Expression) (
+	func(args []expression.Expression) (
 		expression.Expression, error) {
 		if len(args) == 0 {
 			return nil, errors.New("Len operator requires exactly one arg")
@@ -69,7 +69,7 @@ var Len BuiltinFn = BuiltinFn{
 }
 
 var Map BuiltinFn = BuiltinFn{
-	func(env expression.Environment, args []expression.Expression) (
+	func(args []expression.Expression) (
 		expression.Expression, error) {
 		if len(args) != 2 {
 			return nil, errors.New("map operator requires exactly two args")
@@ -84,7 +84,6 @@ var Map BuiltinFn = BuiltinFn{
 		for i, e := range expression.AsList(args[1]) {
 			var err error
 			mapped[i], err = expression.AsFunction(args[0]).Eval(
-				env,
 				[]expression.Expression{e})
 			if err != nil {
 				return nil, errors.New(fmt.Sprintf("Error mapping %d-th arg", i))

@@ -89,7 +89,7 @@ func (vis *evalVisitor) handleLambda(l List) {
 			return
 		}
 	}
-	vis.val = UserFunction{args, l[2]}
+	vis.val = UserFunction{args, l[2], vis.env}
 	vis.err = nil
 }
 
@@ -168,7 +168,7 @@ func (vis *evalVisitor) VisitList(l List) {
 		}
 		args[i] = childVis2.val
 	}
-	vis.val, vis.err = AsFunction(childVis.val).Eval(vis.env, args)
+	vis.val, vis.err = AsFunction(childVis.val).Eval(args)
 }
 
 func Eval(e Expression, env Environment) (Expression, error) {

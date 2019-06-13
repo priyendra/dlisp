@@ -35,7 +35,7 @@ type Float float64
 type Symbol string
 type Function interface {
 	Expression
-	Eval(env Environment, args []Expression) (Expression, error)
+	Eval(args []Expression) (Expression, error)
 }
 type List []Expression
 

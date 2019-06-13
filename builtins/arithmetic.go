@@ -56,7 +56,7 @@ func genericArithemeticOp(
 }
 
 var Plus BuiltinFn = BuiltinFn{
-	func(env expression.Environment, args []expression.Expression) (
+	func(args []expression.Expression) (
 		expression.Expression, error) {
 		return genericArithemeticOp(
 			args,
@@ -67,7 +67,7 @@ var Plus BuiltinFn = BuiltinFn{
 }
 
 var Minus BuiltinFn = BuiltinFn{
-	func(env expression.Environment, args []expression.Expression) (
+	func(args []expression.Expression) (
 		expression.Expression, error) {
 		return genericArithemeticOp(
 			args,
@@ -78,7 +78,7 @@ var Minus BuiltinFn = BuiltinFn{
 }
 
 var Multiply BuiltinFn = BuiltinFn{
-	func(env expression.Environment, args []expression.Expression) (
+	func(args []expression.Expression) (
 		expression.Expression, error) {
 		return genericArithemeticOp(
 			args,
@@ -89,7 +89,7 @@ var Multiply BuiltinFn = BuiltinFn{
 }
 
 var Divide BuiltinFn = BuiltinFn{
-	func(env expression.Environment, args []expression.Expression) (
+	func(args []expression.Expression) (
 		expression.Expression, error) {
 		return genericArithemeticOp(
 			args,
@@ -100,7 +100,7 @@ var Divide BuiltinFn = BuiltinFn{
 }
 
 var Max BuiltinFn = BuiltinFn{
-	func(env expression.Environment, args []expression.Expression) (
+	func(args []expression.Expression) (
 		expression.Expression, error) {
 		return genericArithemeticOp(
 			args,
@@ -116,7 +116,7 @@ var Max BuiltinFn = BuiltinFn{
 }
 
 var Min BuiltinFn = BuiltinFn{
-	func(env expression.Environment, args []expression.Expression) (
+	func(args []expression.Expression) (
 		expression.Expression, error) {
 		return genericArithemeticOp(
 			args,
@@ -132,7 +132,7 @@ var Min BuiltinFn = BuiltinFn{
 }
 
 var Mod BuiltinFn = BuiltinFn{
-	func(env expression.Environment, args []expression.Expression) (
+	func(args []expression.Expression) (
 		expression.Expression, error) {
 		return genericArithemeticOp(
 			args,

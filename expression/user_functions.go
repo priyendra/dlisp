@@ -8,6 +8,7 @@ import (
 type UserFunction struct {
 	args List
 	body Expression
+	env  Environment
 }
 
 type NestedEnvironment struct {
@@ -29,13 +30,13 @@ func (env *NestedEnvironment) SetVar(name string, value Expression) {
 
 func (fn UserFunction) Visit(vis Visitor) { vis.VisitFunction(fn) }
 
-func (fn UserFunction) Eval(env Environment, args []Expression) (
+func (fn UserFunction) Eval(args []Expression) (
 	Expression, error) {
 	if len(args) != len(fn.args) {
 		return nil, errors.New(fmt.Sprintf(
 			"UserFunction expected %d args, found %d", len(fn.args), len(args)))
 	}
-	newEnv := NestedEnvironment{env, map[string]Expression{}}
+	newEnv := NestedEnvironment{fn.env, map[string]Expression{}}
 	for i, a := range fn.args {
 		newEnv.vars[AsSymbol(a)] = args[i]
 	}
