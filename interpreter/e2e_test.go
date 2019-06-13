@@ -136,3 +136,63 @@ func TestSix(t *testing.T) {
 		t.Error("Expected 40, got ", expression.DebugString(result))
 	}
 }
+
+func TestSeven(t *testing.T) {
+	result, err := Eval(Program{
+		"(define twice (lambda (x) (* 2 x)))",
+		"(define repeat (lambda (f) (lambda (x) (f (f x)))))",
+		"((repeat (repeat twice)) 10)",
+	})
+	if err != nil {
+		t.Error("Could not eval program", err)
+	}
+	if !checkValue(result, expression.INT, int64(160)) {
+		t.Error("Expected 160, got ", expression.DebugString(result))
+	}
+}
+
+func TestEight(t *testing.T) {
+	result, err := Eval(Program{
+		"(define fib (lambda (n) (if (< n 2) 1 (+ (fib (- n 1)) (fib (- n 2))))))",
+		"(define range (lambda (a b) " +
+			"(if (>= a b) (quote ()) (append (range a (- b 1)) (- b 1)))))",
+		"(map fib (range 0 10))",
+	})
+	if err != nil {
+		t.Error("Could not eval program", err)
+	}
+	if expression.ToType(result) != expression.LIST {
+		t.Error("Expected result type LIST")
+	}
+	list := expression.AsList(result)
+	if !checkValue(list[0], expression.INT, int64(1)) {
+		t.Error("Expected 1, got ", expression.DebugString(result))
+	}
+	if !checkValue(list[1], expression.INT, int64(1)) {
+		t.Error("Expected 1, got ", expression.DebugString(result))
+	}
+	if !checkValue(list[2], expression.INT, int64(2)) {
+		t.Error("Expected 2, got ", expression.DebugString(result))
+	}
+	if !checkValue(list[3], expression.INT, int64(3)) {
+		t.Error("Expected 3, got ", expression.DebugString(result))
+	}
+	if !checkValue(list[4], expression.INT, int64(5)) {
+		t.Error("Expected 5, got ", expression.DebugString(result))
+	}
+	if !checkValue(list[5], expression.INT, int64(8)) {
+		t.Error("Expected 8, got ", expression.DebugString(result))
+	}
+	if !checkValue(list[6], expression.INT, int64(13)) {
+		t.Error("Expected 13, got ", expression.DebugString(result))
+	}
+	if !checkValue(list[7], expression.INT, int64(21)) {
+		t.Error("Expected 21, got ", expression.DebugString(result))
+	}
+	if !checkValue(list[8], expression.INT, int64(34)) {
+		t.Error("Expected 34, got ", expression.DebugString(result))
+	}
+	if !checkValue(list[9], expression.INT, int64(55)) {
+		t.Error("Expected 55, got ", expression.DebugString(result))
+	}
+}
