@@ -1,0 +1,16 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "debug_string.go",
+        "eval.go",
+        "expression.go",
+        "parser.go",
+        "to_string.go",
+        "to_type.go",
+        "user_functions.go",
+    ],
+    importpath = "github.com/priyendra/dlisp/expression",
+    visibility = ["//visibility:public"],
+)

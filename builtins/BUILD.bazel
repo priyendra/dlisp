@@ -1,0 +1,16 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "arithmetic.go",
+        "builtins.go",
+        "list.go",
+        "logical.go",
+        "math.go",
+        "relational.go",
+    ],
+    importpath = "github.com/priyendra/dlisp/builtins",
+    visibility = ["//visibility:public"],
+    deps = ["//expression:go_default_library"],
+)
